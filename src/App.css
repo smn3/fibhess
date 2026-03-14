@@ -1,0 +1,70 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: sans-serif;
+}
+
+h3 { margin: 0 0 4px; font-size: 0.9em; }
+
+/* Root: fills the full viewport, direction driven by JS class */
+.app-root {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.app-root.landscape { flex-direction: row; align-items: center; }
+.app-root.portrait  { flex-direction: column; align-items: center; }
+
+/* Board area: shrinks to exactly the board's natural size */
+.board-area {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Sidebar fills remaining space and scrolls if needed */
+.sidebar {
+  flex: 1 1 0;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  overflow: auto;
+  min-width: 0;
+  min-height: 0;
+}
+.app-root.landscape .sidebar { flex-direction: column; }
+.app-root.portrait  .sidebar { flex-direction: row; flex-wrap: wrap; align-content: flex-start; }
+
+/* Player box */
+.player-box {
+  border: 1px solid #666;
+  border-radius: 4px;
+  padding: 6px 8px;
+  min-width: 0;
+}
+.app-root.landscape .player-box { width: 100%; }
+.app-root.portrait  .player-box { flex: 1 1 130px; }
+
+.player-box .pieces { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 4px; }
+
+/* Controls */
+.controls { display: flex; flex-wrap: wrap; gap: 6px; align-items: flex-start; }
+.app-root.landscape .controls { flex-direction: column; width: 100%; }
+
+.controls button {
+  padding: 8px 12px;
+  font-size: 0.88em;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid #888;
+  background: #f0f0f0;
+  min-height: 40px;
+  white-space: nowrap;
+}
