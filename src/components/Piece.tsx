@@ -4,6 +4,12 @@ import { GameContext } from '../GameContext';
 import { useCellSize } from '../BoardSizeContext';
 import type { Piece as PieceModel } from '../models';
 
+// Eagerly import all piece images so Vite bundles them correctly
+const pieceImages: Record<string, string> = import.meta.glob(
+  '/assets/*.png',
+  { eager: true, import: 'default' }
+) as Record<string, string>;
+
 interface PieceProps {
   piece: PieceModel;
 }
@@ -28,31 +34,28 @@ export const Piece: React.FC<PieceProps> = ({ piece }) => {
     }),
   }), [canDrag]);
 
-  const color = piece.owner === 'red' ? '#faa' : '#aaf';
   const cellSize = useCellSize();
-  const pieceSize = Math.round(cellSize * 0.82);
-  const fontSize = Math.max(10, Math.round(cellSize * 0.36));
+  const pieceSize = Math.round(cellSize * 0.98);
+  const imgKey = `/assets/${piece.owner}_${piece.type}.png`;
+  const imgSrc = pieceImages[imgKey];
   return (
     <div
       ref={drag as any}
       style={{
         opacity: isDragging ? 0.5 : 1,
-        backgroundColor: color,
         width: pieceSize,
         height: pieceSize,
-        border: '1px solid #333',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
         cursor: 'move',
         touchAction: 'none',
-        fontSize,
-        fontWeight: 'bold',
-        borderRadius: 3,
         userSelect: 'none',
       }}
     >
-      {piece.type}
+      <img
+        src={imgSrc}
+        alt={`${piece.owner} ${piece.type}`}
+        style={{ width: '100%', height: '100%', display: 'block' }}
+        draggable={false}
+      />
     </div>
   );
 };
