@@ -434,7 +434,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       // Atomically randomize the board AND set the computer player in one dispatch,
       // so there is no window where computerPlayer is null when the useEffect fires.
       // Clear all existing pieces first so we start from a blank board.
-      const board = state.board.map((row) => row.map(() => ({ piece: null })));
+      const board: typeof state.board = state.board.map((row) => row.map(() => ({ piece: null })));
       const empties: { x: number; y: number }[] = [];
       for (let y = 0; y < board.length; y++) {
         for (let x = 0; x < board[y].length; x++) {
